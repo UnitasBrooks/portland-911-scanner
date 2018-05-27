@@ -1,0 +1,2 @@
+Super simple script to printout 911 call information within X miles of your location in the last N hours within multnomah
+county. I used it in conjunction with SNS and lambda to text incidents close to my house.
