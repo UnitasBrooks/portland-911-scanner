@@ -49,7 +49,8 @@ def main(seconds, miles, api_key, address):
                 return_string = ""
                 return_string += entry["summary"] + "\n"
                 return_string += time_string + "\n"
-                return_string += str(fixed_location[0]) + ", " + str(fixed_location[1]) + "\n"
+                return_string += "https://www.google.com/maps/place/" + \
+                                 str(fixed_location[0]) + "," + str(fixed_location[1]) + "\n"
                 return_string += "Distance: " + str(distance) + " miles" + "\n"
                 return_string += "\n"
                 print return_string
@@ -59,8 +60,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Portland 911 Scanner.')
     parser.add_argument("--miles", default=1.0, type=float, help="Number of miles to check")
     parser.add_argument("--hours", default=1, type=int, help="How many hours back to check")
-    parser.add_argument("--address", type="str", help="Address to search around")
-    parser.add_argument("--api_key", type="str", help="Google maps API key")
+    parser.add_argument("--address", type=str, help="Address to search around")
+    parser.add_argument("--api_key", type=str, help="Google maps API key")
     args = parser.parse_args()
 
     main(seconds=args.hours * 60 * 60, miles=args.miles, api_key=args.api_key, address=args.address)
