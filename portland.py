@@ -5,9 +5,7 @@ from geopy.distance import great_circle
 import time
 import argparse
 
-API_KEY = "your google api key"
 URL = "http://www.portlandonline.com/scripts/911incidents.cfm"
-ADDRESS = 'your address'
 TIME_PATTERN = "%Y-%m-%dT%H:%M:%S.%f"
 
 
@@ -22,15 +20,17 @@ def get_elapsed_time(time_string):
     return int(time.time()) - int(epoch_time_of_entry)
 
 
-def main(seconds, miles):
+def main(seconds, miles, api_key, address):
     """
     Prints out all incidents in the last N seconds, within a X mile radius
     :param seconds: number of seconds
     :param miles: number of miles
+    :param api_key: Google maps API key to get the coordinates of your location
+    :param address: Address to search around
     :return: None
     """
-    gmaps = googlemaps.Client(key=API_KEY)
-    geocode_result = gmaps.geocode(ADDRESS)
+    gmaps = googlemaps.Client(key=api_key)
+    geocode_result = gmaps.geocode(address)
     lat_lng = geocode_result[0]["geometry"]["location"]
 
     my_lat = lat_lng["lat"]
@@ -59,6 +59,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Portland 911 Scanner.')
     parser.add_argument("--miles", default=1.0, type=float, help="Number of miles to check")
     parser.add_argument("--hours", default=1, type=int, help="How many hours back to check")
+    parser.add_argument("--address", type="str", help="Address to search around")
+    parser.add_argument("--api_key", type="str", help="Google maps API key")
     args = parser.parse_args()
 
-    main(seconds=args.hours * 60 * 60, miles=args.miles)
+    main(seconds=args.hours * 60 * 60, miles=args.miles, api_key=args.api_key, address=args.address)
